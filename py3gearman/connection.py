@@ -3,6 +3,7 @@ import logging
 import socket
 import struct
 import time
+import base64
 
 from .errors import ConnectionError, ProtocolError, ServerUnavailable
 from .constants import DEFAULT_GEARMAN_PORT, _DEBUG_MODE_
