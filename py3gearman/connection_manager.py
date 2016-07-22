@@ -6,7 +6,7 @@ from .connection import GearmanConnection
 from .constants import _DEBUG_MODE_
 from .errors import ConnectionError, ServerUnavailable
 from .job import GearmanJob, GearmanJobRequest
-from gearman import compat
+from . import compat
 
 gearman_logger = logging.getLogger(__name__)
 
