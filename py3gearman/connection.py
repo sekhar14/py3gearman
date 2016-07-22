@@ -3,7 +3,6 @@ import logging
 import socket
 import struct
 import time
-import base64
 
 from .errors import ConnectionError, ProtocolError, ServerUnavailable
 from .constants import DEFAULT_GEARMAN_PORT, _DEBUG_MODE_
@@ -186,7 +185,7 @@ class GearmanConnection(object):
         packed_data += self._outgoing_buffer
         while self._outgoing_commands:
             cmd_type, cmd_args = self._outgoing_commands.popleft()
-            packed_command = self._pack_command(cmd_type, cmd_args).encode()
+            packed_command = self._pack_command(cmd_type, cmd_args).encode('utf-8')
             packed_data += packed_command
 
         self._outgoing_buffer = bytes(packed_data)
