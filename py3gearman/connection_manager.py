@@ -1,7 +1,7 @@
 import logging
 import select as select_lib
 
-from .util
+from .util import disambiguate_server_parameter, select, Stopwatch
 from .connection import GearmanConnection
 from .constants import _DEBUG_MODE_
 from .errors import ConnectionError, ServerUnavailable
@@ -78,7 +78,7 @@ class GearmanConnectionManager(object):
 
     def add_connection(self, hostport_tuple):
         """Add a new connection to this connection manager"""
-        gearman_host, gearman_port = util.disambiguate_server_parameter(hostport_tuple)
+        gearman_host, gearman_port = disambiguate_server_parameter(hostport_tuple)
 
         client_connection = self.connection_class(host=gearman_host, port=gearman_port)
         self.connection_list.append(client_connection)
@@ -125,7 +125,7 @@ class GearmanConnectionManager(object):
             check_wr_connections = [current_connection for current_connection in select_connections if current_connection.writable()]
 
             try:
-                rd_list, wr_list, ex_list = util.select(check_rd_connections, check_wr_connections, select_connections, timeout=timeout)
+                rd_list, wr_list, ex_list = select(check_rd_connections, check_wr_connections, select_connections, timeout=timeout)
                 rd_connections |= set(rd_list)
                 wr_connections |= set(wr_list)
                 ex_connections |= set(ex_list)
@@ -138,7 +138,7 @@ class GearmanConnectionManager(object):
                 # http://www.amk.ca/python/howto/sockets/
                 for conn_to_test in select_connections:
                     try:
-                        _, _, _ = util.select([conn_to_test], [], [], timeout=0)
+                        _, _, _ = select([conn_to_test], [], [], timeout=0)
                     except (select_lib.error, ConnectionError):
                         rd_connections.discard(conn_to_test)
                         wr_connections.discard(conn_to_test)
@@ -178,7 +178,7 @@ class GearmanConnectionManager(object):
 
     def poll_connections_until_stopped(self, submitted_connections, callback_fxn, timeout=None):
         """Continue to poll our connections until we receive a stopping condition"""
-        stopwatch = util.Stopwatch(timeout)
+        stopwatch = Stopwatch(timeout)
 
         any_activity = False
         callback_ok = callback_fxn(any_activity)
