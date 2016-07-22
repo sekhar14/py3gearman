@@ -36,7 +36,7 @@ class GearmanClient(GearmanConnectionManager):
         """Submit a single job to any gearman server"""
         job_info = dict(task=task, data=data, unique=unique, priority=priority)
         completed_job_list = self.submit_multiple_jobs([job_info], background=background, wait_until_complete=wait_until_complete, max_retries=max_retries, poll_timeout=poll_timeout)
-        return .util.unlist(completed_job_list)
+        return util.unlist(completed_job_list)
 
     def submit_multiple_jobs(self, jobs_to_submit, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Takes a list of jobs_to_submit with dicts of
@@ -131,7 +131,7 @@ class GearmanClient(GearmanConnectionManager):
     def get_job_status(self, current_request, poll_timeout=None):
         """Fetch the job status of a single request"""
         request_list = self.get_job_statuses([current_request], poll_timeout=poll_timeout)
-        return .util.unlist(request_list)
+        return util.unlist(request_list)
 
     def get_job_statuses(self, job_requests, poll_timeout=None):
         """Fetch the job status of a multiple requests"""
