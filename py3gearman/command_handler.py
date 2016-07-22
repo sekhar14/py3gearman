@@ -1,6 +1,6 @@
 import logging
-from gearman.errors import UnknownCommandError
-from gearman.protocol import get_command_name
+from .errors import UnknownCommandError
+from .protocol import get_command_name
 
 gearman_logger = logging.getLogger(__name__)
 

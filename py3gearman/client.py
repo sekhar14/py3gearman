@@ -1,16 +1,16 @@
 import collections
-from gearman import compat
+from . import compat
 import logging
 import os
 import random
 import binascii
 
-import gearman.util
+import .util
 
-from gearman.connection_manager import GearmanConnectionManager
-from gearman.client_handler import GearmanClientCommandHandler
-from gearman.constants import PRIORITY_NONE, PRIORITY_LOW, PRIORITY_HIGH, JOB_UNKNOWN, JOB_PENDING
-from gearman.errors import ConnectionError, ExceededConnectionAttempts, ServerUnavailable
+from .connection_manager import GearmanConnectionManager
+from .client_handler import GearmanClientCommandHandler
+from .constants import PRIORITY_NONE, PRIORITY_LOW, PRIORITY_HIGH, JOB_UNKNOWN, JOB_PENDING
+from .errors import ConnectionError, ExceededConnectionAttempts, ServerUnavailable
 
 gearman_logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class GearmanClient(GearmanConnectionManager):
         """Submit a single job to any gearman server"""
         job_info = dict(task=task, data=data, unique=unique, priority=priority)
         completed_job_list = self.submit_multiple_jobs([job_info], background=background, wait_until_complete=wait_until_complete, max_retries=max_retries, poll_timeout=poll_timeout)
-        return gearman.util.unlist(completed_job_list)
+        return .util.unlist(completed_job_list)
 
     def submit_multiple_jobs(self, jobs_to_submit, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Takes a list of jobs_to_submit with dicts of
@@ -59,7 +59,7 @@ class GearmanClient(GearmanConnectionManager):
         You MUST check the status of your requests after calling this function as "timed_out" or "state == JOB_UNKNOWN" maybe True
         """
         assert type(job_requests) in (list, tuple, set), "Expected multiple job requests, received 1?"
-        stopwatch = gearman.util.Stopwatch(poll_timeout)
+        stopwatch = .util.Stopwatch(poll_timeout)
 
         # We should always wait until our job is accepted, this should be fast
         time_remaining = stopwatch.get_time_remaining()
@@ -131,7 +131,7 @@ class GearmanClient(GearmanConnectionManager):
     def get_job_status(self, current_request, poll_timeout=None):
         """Fetch the job status of a single request"""
         request_list = self.get_job_statuses([current_request], poll_timeout=poll_timeout)
-        return gearman.util.unlist(request_list)
+        return .util.unlist(request_list)
 
     def get_job_statuses(self, job_requests, poll_timeout=None):
         """Fetch the job status of a multiple requests"""

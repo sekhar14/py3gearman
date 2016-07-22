@@ -4,9 +4,9 @@ import socket
 import struct
 import time
 
-from gearman.errors import ConnectionError, ProtocolError, ServerUnavailable
-from gearman.constants import DEFAULT_GEARMAN_PORT, _DEBUG_MODE_
-from gearman.protocol import GEARMAN_PARAMS_FOR_COMMAND, GEARMAN_COMMAND_TEXT_COMMAND, NULL_CHAR, \
+from .errors import ConnectionError, ProtocolError, ServerUnavailable
+from .constants import DEFAULT_GEARMAN_PORT, _DEBUG_MODE_
+from .protocol import GEARMAN_PARAMS_FOR_COMMAND, GEARMAN_COMMAND_TEXT_COMMAND, NULL_CHAR, \
     get_command_name, pack_binary_command, parse_binary_command, parse_text_command, pack_text_command
 
 gearman_logger = logging.getLogger(__name__)

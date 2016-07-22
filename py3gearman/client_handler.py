@@ -2,10 +2,10 @@ import collections
 import time
 import logging
 
-from gearman.command_handler import GearmanCommandHandler
-from gearman.constants import JOB_UNKNOWN, JOB_PENDING, JOB_CREATED, JOB_FAILED, JOB_COMPLETE
-from gearman.errors import InvalidClientState
-from gearman.protocol import GEARMAN_COMMAND_GET_STATUS, submit_cmd_for_background_priority
+from .command_handler import GearmanCommandHandler
+from .constants import JOB_UNKNOWN, JOB_PENDING, JOB_CREATED, JOB_FAILED, JOB_COMPLETE
+from .errors import InvalidClientState
+from .protocol import GEARMAN_COMMAND_GET_STATUS, submit_cmd_for_background_priority
 
 gearman_logger = logging.getLogger(__name__)
 

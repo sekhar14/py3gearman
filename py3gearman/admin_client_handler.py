@@ -1,9 +1,9 @@
 import collections
 import logging
 
-from gearman.command_handler import GearmanCommandHandler
-from gearman.errors import ProtocolError, InvalidAdminClientState
-from gearman.protocol import GEARMAN_COMMAND_ECHO_REQ, GEARMAN_COMMAND_TEXT_COMMAND, \
+from .command_handler import GearmanCommandHandler
+from .errors import ProtocolError, InvalidAdminClientState
+from .protocol import GEARMAN_COMMAND_ECHO_REQ, GEARMAN_COMMAND_TEXT_COMMAND, \
     GEARMAN_SERVER_COMMAND_STATUS, GEARMAN_SERVER_COMMAND_VERSION, \
     GEARMAN_SERVER_COMMAND_WORKERS, GEARMAN_SERVER_COMMAND_MAXQUEUE, GEARMAN_SERVER_COMMAND_SHUTDOWN
 

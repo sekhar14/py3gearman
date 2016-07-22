@@ -7,7 +7,7 @@ import select as select_lib
 import time
 import sys
 
-from gearman.constants import DEFAULT_GEARMAN_PORT
+from .constants import DEFAULT_GEARMAN_PORT
 
 class Stopwatch(object):
     """Timer class that keeps track of time remaining"""
