@@ -59,7 +59,7 @@ class GearmanClient(GearmanConnectionManager):
         You MUST check the status of your requests after calling this function as "timed_out" or "state == JOB_UNKNOWN" maybe True
         """
         assert type(job_requests) in (list, tuple, set), "Expected multiple job requests, received 1?"
-        stopwatch = .util.Stopwatch(poll_timeout)
+        stopwatch = util.Stopwatch(poll_timeout)
 
         # We should always wait until our job is accepted, this should be fast
         time_remaining = stopwatch.get_time_remaining()
