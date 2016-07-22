@@ -5,7 +5,7 @@ import os
 import random
 import binascii
 
-import .util
+import util
 
 from .connection_manager import GearmanConnectionManager
 from .client_handler import GearmanClientCommandHandler

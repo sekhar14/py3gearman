@@ -1,7 +1,7 @@
 import logging
 import select as select_lib
 
-import .util
+import util
 from .connection import GearmanConnection
 from .constants import _DEBUG_MODE_
 from .errors import ConnectionError, ServerUnavailable
