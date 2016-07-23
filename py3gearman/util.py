@@ -9,6 +9,7 @@ import sys
 
 from .constants import DEFAULT_GEARMAN_PORT
 
+
 class Stopwatch(object):
     """Timer class that keeps track of time remaining"""
     def __init__(self, time_remaining):
@@ -35,6 +36,7 @@ class Stopwatch(object):
 
         return bool(time_comparison < self.stop_time)
 
+
 def disambiguate_server_parameter(hostport_tuple):
     """Takes either a tuple of (address, port) or a string of 'address:port' and disambiguates them for us"""
     if type(hostport_tuple) is tuple:
@@ -48,6 +50,7 @@ def disambiguate_server_parameter(hostport_tuple):
 
     return gearman_host, gearman_port
 
+
 def select(rlist, wlist, xlist, timeout=None):
     """Behave similar to select.select, except ignoring certain types of exceptions"""
     rd_list = []
@@ -60,6 +63,9 @@ def select(rlist, wlist, xlist, timeout=None):
 
     try:
         rd_list, wr_list, ex_list = select_lib.select(*select_args)
+    except KeyboardInterrupt:
+        print("Interrupted system call. Exiting - Gearman")
+        sys.exit()
     except select_lib.error as exc:
         # Ignore interrupted system call, reraise anything else
         print("Interrupted system call. Exiting - Gearman")
@@ -68,6 +74,7 @@ def select(rlist, wlist, xlist, timeout=None):
             raise
 
     return rd_list, wr_list, ex_list
+
 
 def unlist(given_list):
     """Convert the (possibly) single item list into a single item"""
