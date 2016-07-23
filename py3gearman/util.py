@@ -65,11 +65,11 @@ def select(rlist, wlist, xlist, timeout=None):
         rd_list, wr_list, ex_list = select_lib.select(*select_args)
     except KeyboardInterrupt:
         print("Interrupted system call. Exiting - Gearman")
+        sys.exit()
     except select_lib.error as exc:
+        sys.exit()
         if exc[0] != errno.EINTR:
             raise
-    finally:
-        sys.exit()
 
     return rd_list, wr_list, ex_list
 
