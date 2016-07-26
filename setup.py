@@ -10,7 +10,7 @@ setup(
     url="https://github.com/shuto-S/py3gearman",
     packages=find_packages(exclude=["tests*"]),
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
