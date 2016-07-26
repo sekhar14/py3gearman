@@ -14,8 +14,9 @@ from .errors import ConnectionError, ExceededConnectionAttempts, ServerUnavailab
 
 gearman_logger = logging.getLogger(__name__)
 
-# This number must be <= GEARMAN_UNIQUE_SIZE in gearman/libgearman/constants.h 
+# This number must be <= GEARMAN_UNIQUE_SIZE in gearman/libgearman/constants.h
 RANDOM_UNIQUE_BYTES = 16
+
 
 class GearmanClient(GearmanConnectionManager):
     """
@@ -32,13 +33,13 @@ class GearmanClient(GearmanConnectionManager):
         # Ignores the fact if a request has been bound to a connection or not
         self.request_to_rotating_connection_queue = compat.defaultdict(collections.deque)
 
-    def submit_job(self, task, data, unique=None, priority=PRIORITY_NONE, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
+    def submit_job(self, task, data, unique=None, priority=PRIORITY_NONE, background=True, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Submit a single job to any gearman server"""
         job_info = dict(task=task, data=data, unique=unique, priority=priority)
         completed_job_list = self.submit_multiple_jobs([job_info], background=background, wait_until_complete=wait_until_complete, max_retries=max_retries, poll_timeout=poll_timeout)
         return util.unlist(completed_job_list)
 
-    def submit_multiple_jobs(self, jobs_to_submit, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
+    def submit_multiple_jobs(self, jobs_to_submit, background=True, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Takes a list of jobs_to_submit with dicts of
 
         {'task': task, 'data': data, 'unique': unique, 'priority': priority}
@@ -73,7 +74,6 @@ class GearmanClient(GearmanConnectionManager):
             # Remove jobs from the rotating connection queue to avoid a leak
             for current_request in processed_requests:
                 self.request_to_rotating_connection_queue.pop(current_request, None)
-
 
         return processed_requests
 
@@ -149,6 +149,7 @@ class GearmanClient(GearmanConnectionManager):
     def wait_until_job_statuses_received(self, job_requests, poll_timeout=None):
         """Go into a select loop until we received statuses on all our requests"""
         assert type(job_requests) in (list, tuple, set), "Expected multiple job requests, received 1?"
+
         def is_status_not_updated(current_request):
             current_status = current_request.status
             return bool(current_status.get('time_received') == current_status.get('last_time_received'))
@@ -169,7 +170,7 @@ class GearmanClient(GearmanConnectionManager):
 
         return job_requests
 
-    def _create_request_from_dictionary(self, job_info, background=False, max_retries=0):
+    def _create_request_from_dictionary(self, job_info, background=True, max_retries=0):
         """Takes a dictionary with fields  {'task': task, 'unique': unique, 'data': data, 'priority': priority, 'background': background}"""
         # Make sure we have a unique identifier for ALL our tasks
         job_unique = job_info.get('unique')
