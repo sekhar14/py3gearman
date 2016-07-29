@@ -3,7 +3,7 @@ gearman client for python 3
 
 ## Install
 ```bash
-pip install git+https://github.com/shuto-S/py3gearman
+pip install py3gearman
 ```
 
 ## Usage
