@@ -50,7 +50,7 @@ GEARMAN_COMMAND_SUBMIT_JOB_HIGH_BG = 32
 GEARMAN_COMMAND_SUBMIT_JOB_LOW = 33
 GEARMAN_COMMAND_SUBMIT_JOB_LOW_BG = 34
 
-# Fake command code 
+# Fake command code
 GEARMAN_COMMAND_TEXT_COMMAND = 9999
 
 GEARMAN_PARAMS_FOR_COMMAND = {
@@ -149,8 +149,10 @@ GEARMAN_SERVER_COMMAND_WORKERS = 'workers'
 GEARMAN_SERVER_COMMAND_MAXQUEUE = 'maxqueue'
 GEARMAN_SERVER_COMMAND_SHUTDOWN = 'shutdown'
 
+
 def get_command_name(cmd_type):
     return GEARMAN_COMMAND_TO_NAME.get(cmd_type, cmd_type)
+
 
 def submit_cmd_for_background_priority(background, priority):
     cmd_type_lookup = {
@@ -164,6 +166,7 @@ def submit_cmd_for_background_priority(background, priority):
     lookup_tuple = (background, priority)
     cmd_type = cmd_type_lookup[lookup_tuple]
     return cmd_type
+
 
 def parse_binary_command(in_buffer, is_response=True):
     """Parse data and return (command type, command arguments dict, command size)
@@ -251,6 +254,7 @@ def pack_binary_command(cmd_type, cmd_args, is_response=False):
     packing_format = '!4sII%ds' % payload_size
     return struct.pack(packing_format, magic.encode(), cmd_type, payload_size, binary_payload.encode())
 
+
 def parse_text_command(in_buffer):
     """Parse a text command and return a single line at a time"""
     cmd_type = None
@@ -270,6 +274,7 @@ def parse_text_command(in_buffer):
     cmd_len = len(text_command) + 1
 
     return cmd_type, cmd_args, cmd_len
+
 
 def pack_text_command(cmd_type, cmd_args):
     """Parse a text command and return a single line at a time"""

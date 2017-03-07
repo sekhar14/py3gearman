@@ -11,6 +11,7 @@ from .protocol import GEARMAN_PARAMS_FOR_COMMAND, GEARMAN_COMMAND_TEXT_COMMAND, 
 
 gearman_logger = logging.getLogger(__name__)
 
+
 class GearmanConnection(object):
     """A connection between a client/worker and a server.  Can be used to reconnect (unlike a socket)
 
@@ -185,9 +186,9 @@ class GearmanConnection(object):
         packed_data += self._outgoing_buffer
         while self._outgoing_commands:
             cmd_type, cmd_args = self._outgoing_commands.popleft()
-            # encodig. but failed on python3.
-            # packed_command = self._pack_command(cmd_type, cmd_args).encode()
             packed_command = self._pack_command(cmd_type, cmd_args)
+            if isinstance(packed_command, str):
+                packed_command = packed_command.encode('ascii')
             packed_data += packed_command
 
         self._outgoing_buffer = bytes(packed_data)
@@ -251,5 +252,4 @@ class GearmanConnection(object):
         raise ConnectionError(rewritten_message)
 
     def __repr__(self):
-        return ('<GearmanConnection %s:%d connected=%s>' %
-            (self.gearman_host, self.gearman_port, self.connected))
+        return ('<GearmanConnection %s:%d connected=%s>' % (self.gearman_host, self.gearman_port, self.connected))
