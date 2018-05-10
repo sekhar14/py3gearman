@@ -33,13 +33,13 @@ class GearmanClient(GearmanConnectionManager):
         # Ignores the fact if a request has been bound to a connection or not
         self.request_to_rotating_connection_queue = compat.defaultdict(collections.deque)
 
-    def submit_job(self, task, data, unique=None, priority=PRIORITY_NONE, background=True, wait_until_complete=True, max_retries=0, poll_timeout=None):
+    def submit_job(self, task, data, unique=None, priority=PRIORITY_NONE, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Submit a single job to any gearman server"""
         job_info = dict(task=task, data=data, unique=unique, priority=priority)
         completed_job_list = self.submit_multiple_jobs([job_info], background=background, wait_until_complete=wait_until_complete, max_retries=max_retries, poll_timeout=poll_timeout)
         return util.unlist(completed_job_list)
 
-    def submit_multiple_jobs(self, jobs_to_submit, background=True, wait_until_complete=True, max_retries=0, poll_timeout=None):
+    def submit_multiple_jobs(self, jobs_to_submit, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Takes a list of jobs_to_submit with dicts of
 
         {'task': task, 'data': data, 'unique': unique, 'priority': priority}

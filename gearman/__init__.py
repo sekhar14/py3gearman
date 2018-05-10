@@ -16,5 +16,5 @@ class NullHandler(logging.Handler):
     def emit(self, record):
         pass
 
-gearman_root_logger = logging.getLogger('py3gearman')
+gearman_root_logger = logging.getLogger('gearman')
 gearman_root_logger.addHandler(NullHandler())
