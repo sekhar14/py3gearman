@@ -170,7 +170,7 @@ class GearmanClient(GearmanConnectionManager):
 
         return job_requests
 
-    def _create_request_from_dictionary(self, job_info, background=True, max_retries=0):
+    def _create_request_from_dictionary(self, job_info, background=False, max_retries=0):
         """Takes a dictionary with fields  {'task': task, 'unique': unique, 'data': data, 'priority': priority, 'background': background}"""
         # Make sure we have a unique identifier for ALL our tasks
         job_unique = job_info.get('unique')
